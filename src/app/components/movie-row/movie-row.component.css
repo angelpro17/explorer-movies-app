@@ -1,0 +1,404 @@
+.movie-row {
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.row-title {
+  color: var(--netflix-white);
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 10px 60px;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+.row-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.scroll-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 60px;
+  height: 60px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: var(--netflix-white);
+  border-radius: 50%;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.scroll-button.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.scroll-button:hover {
+  background-color: rgba(0, 0, 0, 0.9);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.scroll-left {
+  left: 10px;
+}
+
+.scroll-right {
+  right: 10px;
+}
+
+.scroll-button mat-icon {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.movies-container {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+}
+
+.movies-container::-webkit-scrollbar {
+  display: none;
+}
+
+.movies-track {
+  display: flex;
+  gap: 8px;
+  padding: 0 60px;
+  min-width: min-content;
+}
+
+.movie-item {
+  flex: 0 0 auto;
+  width: 200px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.movie-item:hover {
+  transform: scale(1.05);
+  z-index: 5;
+}
+
+.movie-thumbnail {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--netflix-dark-grey);
+}
+
+.movie-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.movie-item:hover .movie-poster {
+  transform: scale(1.1);
+}
+
+.no-poster {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--netflix-grey) 0%, var(--netflix-dark-grey) 100%);
+  color: var(--netflix-text-grey);
+}
+
+.no-poster mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+}
+
+/* Overlay de hover */
+.movie-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 40%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px;
+}
+
+.movie-item:hover .movie-overlay {
+  opacity: 1;
+}
+
+.overlay-content {
+  color: var(--netflix-white);
+}
+
+.movie-info {
+  margin-bottom: 12px;
+}
+
+.movie-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 6px 0;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.movie-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--netflix-text-grey);
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: #46d369;
+}
+
+.rating mat-icon {
+  font-size: 12px;
+  width: 12px;
+  height: 12px;
+}
+
+.movie-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.movie-actions button {
+  width: 32px;
+  height: 32px;
+  background-color: rgba(42, 42, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  color: var(--netflix-white);
+  transition: all 0.2s ease;
+}
+
+.movie-actions button:hover {
+  background-color: var(--netflix-white);
+  color: var(--netflix-black);
+  border-color: var(--netflix-white);
+  transform: scale(1.1);
+}
+
+.movie-actions button mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.play-btn:hover {
+  background-color: var(--netflix-red) !important;
+  color: var(--netflix-white) !important;
+  border-color: var(--netflix-red) !important;
+}
+
+.favorite-btn.favorited {
+  background-color: var(--netflix-red);
+  border-color: var(--netflix-red);
+  color: var(--netflix-white);
+}
+
+.watchlist-btn.in-watchlist {
+  background-color: #46d369;
+  border-color: #46d369;
+  color: var(--netflix-white);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .movies-track {
+    padding: 0 40px;
+  }
+  
+  .row-title {
+    margin-left: 40px;
+  }
+  
+  .movie-item {
+    width: 180px;
+  }
+  
+  .movie-thumbnail {
+    height: 270px;
+  }
+}
+
+@media (max-width: 768px) {
+  .movie-row {
+    margin-bottom: 30px;
+  }
+  
+  .row-title {
+    font-size: 18px;
+    margin: 0 0 8px 20px;
+  }
+  
+  .movies-track {
+    padding: 0 20px;
+    gap: 6px;
+  }
+  
+  .movie-item {
+    width: 150px;
+  }
+  
+  .movie-thumbnail {
+    height: 225px;
+  }
+  
+  .scroll-button {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .scroll-button mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+  
+  .movie-title {
+    font-size: 13px;
+  }
+  
+  .movie-meta {
+    font-size: 11px;
+    gap: 8px;
+  }
+  
+  .movie-actions button {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .movie-actions button mat-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .row-title {
+    font-size: 16px;
+    margin: 0 0 6px 15px;
+  }
+  
+  .movies-track {
+    padding: 0 15px;
+    gap: 4px;
+  }
+  
+  .movie-item {
+    width: 120px;
+  }
+  
+  .movie-thumbnail {
+    height: 180px;
+    border-radius: 6px;
+  }
+  
+  .movie-overlay {
+    padding: 12px;
+  }
+  
+  .movie-title {
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+  
+  .movie-meta {
+    font-size: 10px;
+    gap: 6px;
+  }
+  
+  .movie-actions {
+    gap: 2px;
+  }
+  
+  .movie-actions button {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .movie-actions button mat-icon {
+    font-size: 12px;
+    width: 12px;
+    height: 12px;
+  }
+  
+  .scroll-button {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .scroll-button mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Hover states para pantallas táctiles */
+@media (hover: none) {
+  .movie-item:hover {
+    transform: none;
+  }
+  
+  .movie-item:hover .movie-poster {
+    transform: none;
+  }
+  
+  .movie-overlay {
+    opacity: 1;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      transparent 60%,
+      rgba(0, 0, 0, 0.9) 100%
+    );
+  }
+  
+  .scroll-button.visible {
+    opacity: 0.7;
+  }
+  
+  .movie-actions button:hover {
+    transform: none;
+  }
+}

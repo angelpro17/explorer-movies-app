@@ -1,330 +1,527 @@
-/* Contenedor principal */
-.app-container {
+.netflix-app {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background-color: var(--netflix-black);
+  color: var(--netflix-white);
 }
 
-/* Header */
-.app-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+.netflix-main {
+  position: relative;
+  min-height: 100vh;
 }
 
-.header-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
+.content-container {
+  padding-top: 68px; /* Header height */
 }
 
-.header-title {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+.content-container.with-hero {
+  padding-top: 0;
 }
 
-.app-icon {
-  font-size: 2rem;
-  width: 2rem;
-  height: 2rem;
-}
-
-.header-title h1 {
-  margin: 0;
-  font-size: 1.75rem;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-}
-
-.nav-tabs {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
-.nav-tabs button {
-  color: rgba(255,255,255,0.8);
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  transition: all 0.2s ease;
-  font-weight: 500;
-}
-
-.nav-tabs button:hover {
-  background: rgba(255,255,255,0.1);
-  color: white;
-}
-
-.nav-tabs button.active {
-  background: rgba(255,255,255,0.2);
-  color: white;
-}
-
-.nav-tabs mat-icon {
-  margin-right: 0.5rem;
-}
-
-/* Contenido principal */
-.main-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-/* Sección de búsqueda */
-.search-section {
-  margin-bottom: 2rem;
-}
-
-.search-container {
-  display: flex;
-  justify-content: center;
-}
-
-.search-field {
-  width: 100%;
-  max-width: 600px;
-}
-
-/* Sección de categorías */
-.categories-section {
-  margin-bottom: 2rem;
-}
-
-/* Sección de filtros */
-.filters-section {
-  margin-bottom: 2rem;
-}
-
-/* Sección de contenido */
-.content-section {
-  background: white;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-}
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.section-header h2 {
-  margin: 0;
-  font-size: 1.75rem;
-  font-weight: 600;
-  color: #333;
-}
-
-.section-stats {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.stat-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: #f8f9fa;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  color: #666;
-  font-weight: 500;
-}
-
-.stat-item mat-icon {
-  font-size: 1.1rem;
-  width: 1.1rem;
-  height: 1.1rem;
-  color: #667eea;
-}
-
-/* Estados de carga y error */
-.loading-container, .error-container {
+/* Loading and Error States */
+.loading-state,
+.error-state {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 4rem 2rem;
+  min-height: 60vh;
   text-align: center;
+  padding: 40px 20px;
 }
 
-.loading-container p {
-  margin-top: 1rem;
-  color: #666;
-  font-size: 1.1rem;
+.loading-state p {
+  margin-top: 20px;
+  color: var(--netflix-text-grey);
+  font-size: 16px;
 }
 
-.error-container {
-  color: #d32f2f;
+.error-state {
+  color: var(--netflix-white);
 }
 
 .error-icon {
-  font-size: 3rem;
-  width: 3rem;
-  height: 3rem;
-  margin-bottom: 1rem;
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  color: var(--netflix-red);
+  margin-bottom: 20px;
 }
 
-.error-container p {
-  margin-bottom: 1rem;
-  font-size: 1.1rem;
+.error-state h3 {
+  margin: 0 0 10px 0;
+  font-size: 24px;
+  font-weight: 600;
 }
 
-/* Grid de películas */
-.movies-grid {
-  margin-bottom: 2rem;
+.error-state p {
+  margin: 0 0 30px 0;
+  color: var(--netflix-text-grey);
+  font-size: 16px;
 }
 
-.grid-container {
+/* Netflix Content */
+.netflix-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Main Content */
+.main-content {
+  padding-bottom: 60px;
+}
+
+/* Search Results */
+.search-results {
+  padding: 40px 60px;
+}
+
+.section-title {
+  color: var(--netflix-white);
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  line-height: 1.2;
+}
+
+.section-subtitle {
+  color: var(--netflix-text-grey);
+  font-size: 16px;
+  margin: 0 0 30px 0;
+}
+
+.search-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2rem;
-  margin-bottom: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
 }
 
-/* Sin resultados */
+.search-movie-item {
+  display: flex;
+  background-color: var(--netflix-dark-grey);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.search-movie-item:hover {
+  transform: scale(1.02);
+  background-color: var(--netflix-grey);
+}
+
+.search-movie-poster {
+  flex: 0 0 120px;
+  height: 180px;
+  position: relative;
+  background-color: var(--netflix-grey);
+}
+
+.search-movie-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.search-movie-poster .no-poster {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--netflix-text-grey);
+}
+
+.search-movie-poster .no-poster mat-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+}
+
+.search-movie-info {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-movie-info h4 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--netflix-white);
+}
+
+.search-movie-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.search-movie-meta .rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #46d369;
+}
+
+.search-movie-meta .rating mat-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+}
+
+.search-movie-meta .year {
+  color: var(--netflix-text-grey);
+}
+
+.search-movie-info .overview {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--netflix-text-grey);
+  margin: 0;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.page-info {
+  color: var(--netflix-text-grey);
+  font-size: 14px;
+  font-weight: 500;
+  min-width: 80px;
+  text-align: center;
+}
+
+/* No Results */
 .no-results {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 4rem 2rem;
+  padding: 60px 20px;
   text-align: center;
-  color: #666;
+  color: var(--netflix-text-grey);
 }
 
-.no-results-icon {
-  font-size: 4rem;
-  width: 4rem;
-  height: 4rem;
-  margin-bottom: 1rem;
-  color: #ccc;
+.no-results mat-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 20px;
+  color: var(--netflix-light-grey);
 }
 
 .no-results h3 {
-  margin: 0 0 1rem 0;
-  font-size: 1.5rem;
+  margin: 0 0 10px 0;
+  font-size: 22px;
   font-weight: 600;
-  color: #333;
+  color: var(--netflix-white);
 }
 
 .no-results p {
-  margin: 0 0 1.5rem 0;
-  font-size: 1.1rem;
+  margin: 0;
+  font-size: 16px;
   max-width: 400px;
   line-height: 1.5;
 }
 
-/* Paginación */
-.pagination-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 2rem;
+/* Movie Rows */
+.movie-rows {
+  padding-bottom: 40px;
 }
 
-.pagination {
+/* Favorites and Watchlist Content */
+.favorites-content,
+.watchlist-content {
+  padding: 40px 60px 60px;
+}
+
+.section-header {
+  margin-bottom: 40px;
+}
+
+.favorites-grid,
+.watchlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.favorite-item,
+.watchlist-item {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.favorite-item:hover,
+.watchlist-item:hover {
+  transform: scale(1.05);
+}
+
+.favorite-poster,
+.watchlist-poster {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--netflix-dark-grey);
+}
+
+.favorite-poster img,
+.watchlist-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.favorite-poster .no-poster,
+.watchlist-poster .no-poster {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  background: #f8f9fa;
-  padding: 1rem 2rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--netflix-text-grey);
 }
 
-.page-info {
-  font-weight: 500;
-  color: #666;
-  min-width: 120px;
+.favorite-poster .no-poster mat-icon,
+.watchlist-poster .no-poster mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+}
+
+.favorite-overlay,
+.watchlist-overlay {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.favorite-item:hover .favorite-overlay,
+.watchlist-item:hover .watchlist-overlay {
+  opacity: 1;
+}
+
+.remove-favorite,
+.remove-watchlist {
+  width: 32px;
+  height: 32px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: var(--netflix-white);
+  border-radius: 50%;
+}
+
+.remove-favorite:hover,
+.remove-watchlist:hover {
+  background-color: var(--netflix-red);
+}
+
+.favorite-info,
+.watchlist-info {
+  padding: 12px 0;
+}
+
+.favorite-info h4,
+.watchlist-info h4 {
+  margin: 0 0 6px 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--netflix-white);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.favorite-meta,
+.watchlist-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--netflix-text-grey);
+}
+
+.favorite-meta .rating,
+.watchlist-meta .rating {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: #46d369;
+}
+
+.favorite-meta .rating mat-icon,
+.watchlist-meta .rating mat-icon {
+  font-size: 12px;
+  width: 12px;
+  height: 12px;
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
   text-align: center;
 }
 
-.pagination button {
-  border-radius: 8px;
-  font-weight: 500;
-  transition: all 0.2s ease;
+.empty-state mat-icon {
+  font-size: 80px;
+  width: 80px;
+  height: 80px;
+  color: var(--netflix-light-grey);
+  margin-bottom: 20px;
 }
 
-.pagination button:hover:not(:disabled) {
-  background: #667eea;
-  color: white;
-  border-color: #667eea;
+.empty-state h3 {
+  margin: 0 0 10px 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--netflix-white);
+}
+
+.empty-state p {
+  margin: 0 0 30px 0;
+  font-size: 16px;
+  color: var(--netflix-text-grey);
+  max-width: 400px;
+  line-height: 1.5;
 }
 
 /* Responsive */
+@media (max-width: 1200px) {
+  .search-results,
+  .favorites-content,
+  .watchlist-content {
+    padding: 40px 40px 60px;
+  }
+}
+
 @media (max-width: 768px) {
-  .header-content {
+  .content-container {
+    padding-top: 60px; /* Mobile header height */
+  }
+  
+  .search-results,
+  .favorites-content,
+  .watchlist-content {
+    padding: 30px 20px 50px;
+  }
+  
+  .section-title {
+    font-size: 22px;
+  }
+  
+  .search-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .search-movie-item {
     flex-direction: column;
-    align-items: stretch;
-    text-align: center;
+    max-width: 400px;
+    margin: 0 auto;
   }
-
-  .nav-tabs {
-    justify-content: center;
+  
+  .search-movie-poster {
+    flex: none;
+    height: 240px;
   }
-
-  .main-content {
-    padding: 1rem;
+  
+  .search-movie-info {
+    padding: 16px;
   }
-
-  .content-section {
-    padding: 1.5rem;
+  
+  .favorites-grid,
+  .watchlist-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
   }
-
-  .section-header {
-    flex-direction: column;
-    align-items: stretch;
+  
+  .favorite-poster,
+  .watchlist-poster {
+    height: 225px;
   }
-
-  .section-stats {
-    justify-content: center;
+  
+  .empty-state {
+    padding: 60px 20px;
   }
-
-  .grid-container {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
+  
+  .empty-state mat-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
   }
-
-  .pagination {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .page-info {
-    order: -1;
+  
+  .empty-state h3 {
+    font-size: 20px;
   }
 }
 
 @media (max-width: 480px) {
-  .header-title h1 {
-    font-size: 1.5rem;
+  .search-results,
+  .favorites-content,
+  .watchlist-content {
+    padding: 20px 15px 40px;
   }
-
-  .nav-tabs button {
-    padding: 0.5rem;
-    font-size: 0.9rem;
+  
+  .section-title {
+    font-size: 20px;
   }
-
-  .nav-tabs mat-icon {
-    margin-right: 0.25rem;
+  
+  .section-subtitle {
+    font-size: 14px;
   }
-
-  .grid-container {
-    grid-template-columns: 1fr;
+  
+  .search-movie-poster {
+    height: 200px;
+  }
+  
+  .favorites-grid,
+  .watchlist-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
+  }
+  
+  .favorite-poster,
+  .watchlist-poster {
+    height: 180px;
+    border-radius: 6px;
+  }
+  
+  .pagination {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .page-info {
+    order: -1;
   }
 }
