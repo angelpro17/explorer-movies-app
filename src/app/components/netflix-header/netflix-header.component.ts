@@ -30,7 +30,7 @@ import {MatDivider} from '@angular/material/divider';
         <div class="header-left">
           <div class="netflix-logo">
             <mat-icon class="logo-icon">movie</mat-icon>
-            <span class="logo-text">NETFLIX</span>
+            <span class="logo-text">ExploreFlix</span>
           </div>
 
           <nav class="main-nav" [class.mobile-hidden]="!showMobileMenu">
