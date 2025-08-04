@@ -10,11 +10,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
-import { Subject } from 'rxjs';
+import {forkJoin, Subject} from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { MovieFiltersComponent, MovieFilters } from '../../components/movie-filters/movie-filters.component';
-import { MovieCategoriesComponent, MovieCategory } from '../../components/movie-categories/movie-categories.component';
-import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
+import { NetflixHeaderComponent } from '../../components/netflix-header/netflix-header.component';
+import { HeroBannerComponent } from '../../components/hero-banner/hero-banner.component';
+import { MovieRowComponent } from '../../components/movie-row/movie-row.component';
+
+interface MovieCategory {
+  title: string;
+  movies: TMDBMovie[];
+  category: 'popular' | 'top-rated' | 'upcoming' | 'now-playing';
+}
 
 @Component({
   selector: 'app-movies',
@@ -30,9 +36,9 @@ import { MovieCardComponent } from '../../components/movie-card/movie-card.compo
     MatProgressSpinnerModule,
     MatSnackBarModule,
     RouterModule,
-    MovieFiltersComponent,
-    MovieCategoriesComponent,
-    MovieCardComponent
+    NetflixHeaderComponent,
+    HeroBannerComponent,
+    MovieRowComponent
   ],
   templateUrl: './movies.component.html',
   styleUrls: ['./movies.component.css']
@@ -42,18 +48,18 @@ export class MoviesComponent implements OnInit {
   movies: TMDBMovie[] = [];
   favorites: TMDBMovie[] = [];
   watchlist: TMDBMovie[] = [];
-  selected: TMDBMovieDetail | null = null;
+  featuredMovie: TMDBMovie | null = null;
   loading = false;
   error = '';
   currentView: 'all' | 'favorites' | 'watchlist' = 'all';
-  currentCategory: MovieCategory = 'popular';
-  currentFilters: MovieFilters = {
-    genres: [],
-    minRating: 0,
-    yearFrom: 1900,
-    yearTo: new Date().getFullYear(),
-    sortBy: 'popularity'
-  };
+
+  // Movie categories for Netflix-style rows
+  movieCategories: MovieCategory[] = [
+    { title: 'Populares', movies: [], category: 'popular' },
+    { title: 'Mejor Valoradas', movies: [], category: 'top-rated' },
+    { title: 'Próximos Estrenos', movies: [], category: 'upcoming' },
+    { title: 'En Cartelera', movies: [], category: 'now-playing' }
+  ];
 
   page = 1;
   totalPages = 1;
@@ -65,65 +71,67 @@ export class MoviesComponent implements OnInit {
   ngOnInit() {
     this.loadFavorites();
     this.loadWatchlist();
-    this.loadMoviesByCategory(this.currentCategory);
-    
+    this.loadAllCategories();
+
     this.search$.pipe(debounceTime(300)).subscribe(term => {
-      if (term) this.fetch(term, 1);
-      else this.loadMoviesByCategory(this.currentCategory, 1);
+      if (term) {
+        this.searchMovies(term, 1);
+      } else {
+        this.loadAllCategories();
+      }
     });
   }
 
-  onSearchChange(v: string) {
-    this.page = 1;
-    this.search$.next(v);
-  }
-
-  onCategoryChange(category: MovieCategory) {
-    this.currentCategory = category;
+  onViewChange(view: 'all' | 'favorites' | 'watchlist') {
+    this.currentView = view;
     this.searchTerm = '';
-    this.page = 1;
-    this.loadMoviesByCategory(category, 1);
-  }
-
-  onFiltersChange(filters: MovieFilters) {
-    this.currentFilters = filters;
-    this.applyFilters();
-  }
-
-  loadMoviesByCategory(category: MovieCategory, page = 1) {
-    this.loading = true;
-    this.error = '';
-    
-    const requests = {
-      'popular': () => this.svc.getPopular(page),
-      'top-rated': () => this.svc.getTopRated(page),
-      'upcoming': () => this.svc.getUpcoming(page),
-      'now-playing': () => this.svc.getNowPlaying(page)
-    };
-
-    const request = requests[category];
-    if (request) {
-      request().subscribe({
-        next: (res: SearchResponse) => {
-          this.movies = this.filterMovies(res.results);
-          this.page = res.page;
-          this.totalPages = res.total_pages;
-          this.loading = false;
-        },
-        error: (e: Error) => {
-          this.error = e.message;
-          this.loading = false;
-        }
-      });
+    if (view === 'all') {
+      this.loadAllCategories();
     }
   }
 
-  fetch(term: string, p: number) {
+  onSearchChange(term: string) {
+    this.searchTerm = term;
+    this.page = 1;
+    this.search$.next(term);
+  }
+
+  loadAllCategories() {
     this.loading = true;
     this.error = '';
-    this.svc.searchMovies(term, p).subscribe({
+
+    forkJoin({
+      popular: this.svc.getPopular(1),
+      topRated: this.svc.getTopRated(1),
+      upcoming: this.svc.getUpcoming(1),
+      nowPlaying: this.svc.getNowPlaying(1),
+    }).subscribe({
+      next: ({ popular, topRated, upcoming, nowPlaying }) => {
+        this.movieCategories[0].movies = popular.results.slice(0, 20);
+        this.movieCategories[1].movies = topRated.results.slice(0, 20);
+        this.movieCategories[2].movies = upcoming.results.slice(0, 20);
+        this.movieCategories[3].movies = nowPlaying.results.slice(0, 20);
+
+        if (popular.results.length > 0) {
+          this.featuredMovie = popular.results[0];
+        }
+
+        this.loading = false;
+      },
+      error: (error) => {
+        this.error = 'Error al cargar las películas';
+        this.loading = false;
+        console.error('Error loading categories:', error);
+      }
+    });
+  }
+  searchMovies(term: string, page: number) {
+    this.loading = true;
+    this.error = '';
+
+    this.svc.searchMovies(term, page).subscribe({
       next: (res: SearchResponse) => {
-        this.movies = this.filterMovies(res.results);
+        this.movies = res.results;
         this.page = res.page;
         this.totalPages = res.total_pages;
         this.loading = false;
@@ -133,67 +141,6 @@ export class MoviesComponent implements OnInit {
         this.loading = false;
       }
     });
-  }
-
-  filterMovies(movies: TMDBMovie[]): TMDBMovie[] {
-    return movies.filter(movie => {
-      // Filtro por calificación mínima
-      if (movie.vote_average < this.currentFilters.minRating) {
-        return false;
-      }
-
-      // Filtro por año
-      const movieYear = parseInt(movie.release_date.split('-')[0]);
-      if (movieYear < this.currentFilters.yearFrom || movieYear > this.currentFilters.yearTo) {
-        return false;
-      }
-
-      // Filtro por géneros
-      if (this.currentFilters.genres.length > 0 && movie.genre_ids) {
-        const hasMatchingGenre = this.currentFilters.genres.some(genreId => 
-          movie.genre_ids!.includes(genreId)
-        );
-        if (!hasMatchingGenre) {
-          return false;
-        }
-      }
-
-      return true;
-    }).sort((a, b) => {
-      // Ordenamiento
-      switch (this.currentFilters.sortBy) {
-        case 'rating':
-          return b.vote_average - a.vote_average;
-        case 'date':
-          return new Date(b.release_date).getTime() - new Date(a.release_date).getTime();
-        case 'title':
-          return a.title.localeCompare(b.title);
-        default: // popularity
-          return 0; // TMDB ya ordena por popularidad
-      }
-    });
-  }
-
-  applyFilters() {
-    if (this.searchTerm) {
-      this.fetch(this.searchTerm, 1);
-    } else {
-      this.loadMoviesByCategory(this.currentCategory, 1);
-    }
-  }
-
-  prevPage() {
-    if (this.page > 1) {
-      if (this.searchTerm) this.fetch(this.searchTerm, this.page - 1);
-      else this.loadMoviesByCategory(this.currentCategory, this.page - 1);
-    }
-  }
-
-  nextPage() {
-    if (this.page < this.totalPages) {
-      if (this.searchTerm) this.fetch(this.searchTerm, this.page + 1);
-      else this.loadMoviesByCategory(this.currentCategory, this.page + 1);
-    }
   }
 
   toggleFavorite(movie: TMDBMovie) {
@@ -216,6 +163,18 @@ export class MoviesComponent implements OnInit {
     localStorage.setItem('watchlist-movies-tmdb', JSON.stringify(this.watchlist));
   }
 
+  removeFavorite(event: Event, movie: TMDBMovie) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.toggleFavorite(movie);
+  }
+
+  removeWatchlist(event: Event, movie: TMDBMovie) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.toggleWatchlist(movie);
+  }
+
   isFavorite(movie: TMDBMovie): boolean {
     return !!this.favorites.find(f => f.id === movie.id);
   }
@@ -234,25 +193,37 @@ export class MoviesComponent implements OnInit {
     this.watchlist = stored ? JSON.parse(stored) : [];
   }
 
-  getCurrentMovies(): TMDBMovie[] {
-    switch (this.currentView) {
-      case 'favorites':
-        return this.favorites;
-      case 'watchlist':
-        return this.watchlist;
-      default:
-        return this.movies;
+  onMovieSelected(movie: TMDBMovie) {
+    // Navigate to movie detail or handle movie selection
+    console.log('Movie selected:', movie);
+  }
+
+  getReleaseYear(releaseDate: string): string {
+    return releaseDate ? new Date(releaseDate).getFullYear().toString() : '';
+  }
+
+  truncateOverview(overview: string, maxLength = 200): string {
+    if (!overview) return '';
+    return overview.length > maxLength ? overview.substring(0, maxLength) + '...' : overview;
+  }
+
+  prevPage() {
+    if (this.page > 1) {
+      this.searchMovies(this.searchTerm, this.page - 1);
     }
   }
 
-  getCurrentTitle(): string {
-    switch (this.currentView) {
-      case 'favorites':
-        return 'Mis Favoritas';
-      case 'watchlist':
-        return 'Mi Watchlist';
-      default:
-        return this.searchTerm ? `Búsqueda: "${this.searchTerm}"` : 'Catálogo de Películas';
+  nextPage() {
+    if (this.page < this.totalPages) {
+      this.searchMovies(this.searchTerm, this.page + 1);
+    }
+  }
+
+  retry() {
+    if (this.searchTerm) {
+      this.searchMovies(this.searchTerm, this.page);
+    } else {
+      this.loadAllCategories();
     }
   }
 }

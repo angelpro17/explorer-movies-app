@@ -51,7 +51,7 @@ export class MovieDetailComponent implements OnInit {
   ngOnInit() {
     this.loadFavorites();
     this.loadWatchlist();
-    
+
     const movieId = this.route.snapshot.paramMap.get('id');
     if (movieId) {
       this.loadMovieDetail(parseInt(movieId));
@@ -79,12 +79,12 @@ export class MovieDetailComponent implements OnInit {
   loadTrailer(movieId: number) {
     this.moviesService.getMovieVideos(movieId).subscribe({
       next: (response) => {
-        const trailer = response.results.find(video => 
-          video.site === 'YouTube' && 
-          video.type === 'Trailer' && 
+        const trailer = response.results.find(video =>
+          video.site === 'YouTube' &&
+          video.type === 'Trailer' &&
           video.official
-        ) || response.results.find(video => 
-          video.site === 'YouTube' && 
+        ) || response.results.find(video =>
+          video.site === 'YouTube' &&
           video.type === 'Trailer'
         );
 

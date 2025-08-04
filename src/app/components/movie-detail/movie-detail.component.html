@@ -2,8 +2,8 @@
   <!-- Hero Section con Backdrop -->
   <div class="hero-section" *ngIf="movie?.backdrop_path">
     <div class="backdrop-overlay">
-      <img 
-        [src]="'https://image.tmdb.org/t/p/original' + (movie?.backdrop_path || '')" 
+      <img
+        [src]="'https://image.tmdb.org/t/p/original' + (movie?.backdrop_path || '')"
         [alt]="movie?.title || ''"
         class="backdrop-image"
       />
@@ -30,9 +30,9 @@
       <mat-card class="info-card">
         <div class="movie-header">
           <div class="poster-section">
-            <img 
-              *ngIf="movie?.poster_path" 
-              [src]="'https://image.tmdb.org/t/p/w500' + (movie?.poster_path || '')" 
+            <img
+              *ngIf="movie?.poster_path"
+              [src]="'https://image.tmdb.org/t/p/w500' + (movie?.poster_path || '')"
               [alt]="movie?.title || ''"
               class="movie-poster"
             />
@@ -41,21 +41,21 @@
               <span>Sin imagen</span>
             </div>
           </div>
-          
+
           <div class="movie-details">
             <h2 *ngIf="!movie?.backdrop_path">{{ movie?.title }}</h2>
-            
+
             <div class="genres" *ngIf="movie?.genres?.length">
               <mat-chip *ngFor="let genre of movie?.genres || []" class="genre-chip">
                 {{ genre.name }}
               </mat-chip>
             </div>
-            
+
             <div class="overview">
               <h3>Sinopsis</h3>
               <p>{{ movie?.overview || 'Sin descripción disponible.' }}</p>
             </div>
-            
+
             <div class="additional-info">
               <div class="info-item" *ngIf="movie?.status">
                 <strong>Estado:</strong> {{ movie?.status }}
@@ -79,14 +79,17 @@
 
       <!-- Tabs para contenido adicional -->
       <mat-card class="tabs-card">
-        <mat-tab-group>
+        <mat-tab-group >
           <!-- Trailer -->
-          <mat-tab label="Trailer">
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span class="custom-tab-label">Trailer</span>
+            </ng-template>
             <div class="tab-content">
               <div *ngIf="trailerUrl; else noTrailer" class="trailer-container">
-                <iframe 
-                  [src]="trailerUrl" 
-                  frameborder="0" 
+                <iframe
+                  [src]="trailerUrl"
+                  frameborder="0"
                   allowfullscreen
                   class="trailer-iframe">
                 </iframe>
@@ -101,11 +104,14 @@
           </mat-tab>
 
           <!-- Películas similares -->
-          <mat-tab label="Películas similares">
+          <mat-tab >
+            <ng-template mat-tab-label>
+              <span class="custom-tab-label">Películas similares</span>
+            </ng-template>
             <div class="tab-content">
               <div *ngIf="similarMovies.length; else noSimilar" class="similar-movies">
                 <div class="movies-grid">
-                  <app-movie-card 
+                  <app-movie-card
                     *ngFor="let movie of similarMovies.slice(0, 6)"
                     [movie]="movie"
                     [isFavorite]="isFavorite(movie)"
@@ -131,26 +137,26 @@
     <aside class="sidebar">
       <mat-card class="actions-card">
         <div class="action-buttons">
-          <button 
-            mat-flat-button 
+          <button
+            mat-flat-button
             [color]="movie && isFavorite(movie) ? 'warn' : 'primary'"
             (click)="movie && toggleFavorite(movie)"
             class="action-btn">
             <mat-icon>{{ movie && isFavorite(movie) ? 'favorite' : 'favorite_border' }}</mat-icon>
             {{ movie && isFavorite(movie) ? 'Quitar de favoritos' : 'Agregar a favoritos' }}
           </button>
-          
-          <button 
-            mat-stroked-button 
+
+          <button
+            mat-stroked-button
             [color]="movie && isInWatchlist(movie) ? 'accent' : 'primary'"
             (click)="movie && toggleWatchlist(movie)"
             class="action-btn">
             <mat-icon>{{ movie && isInWatchlist(movie) ? 'bookmark' : 'bookmark_border' }}</mat-icon>
             {{ movie && isInWatchlist(movie) ? 'Quitar de watchlist' : 'Agregar a watchlist' }}
           </button>
-          
-          <button 
-            mat-stroked-button 
+
+          <button
+            mat-stroked-button
             routerLink="/movies"
             class="action-btn">
             <mat-icon>arrow_back</mat-icon>

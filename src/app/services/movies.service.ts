@@ -3,15 +3,19 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { catchError, throwError } from 'rxjs';
 import {environment} from '../environments/environment';
 
+
+
 export interface TMDBMovie {
   id: number;
   title: string;
   overview: string;
   poster_path: string | null;
+  backdrop_path?: string | null; // <-- agregado
   release_date: string;
   vote_average: number;
   genre_ids?: number[];
 }
+
 
 export interface TMDBMovieDetail extends TMDBMovie {
   genres: { id: number; name: string }[];
