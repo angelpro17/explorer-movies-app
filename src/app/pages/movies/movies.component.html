@@ -1,16 +1,16 @@
-<div class="netflix-app">
-  <!-- Netflix Header -->
-  <app-netflix-header
+<div class="exploreflix-app">
+  <!-- exploreflix Header -->
+  <app-exploreflix-header
     [currentView]="currentView"
     [favoritesCount]="favorites.length"
     [watchlistCount]="watchlist.length"
     [searchTerm]="searchTerm"
     (viewChanged)="onViewChange($event)"
     (searchChanged)="onSearchChange($event)">
-  </app-netflix-header>
+  </app-exploreflix-header>
 
   <!-- Main Content -->
-  <main class="netflix-main">
+  <main class="exploreflix-main">
     <!-- Hero Banner (solo en vista principal sin búsqueda) -->
     <app-hero-banner
       *ngIf="currentView === 'all' && !searchTerm && featuredMovie"
@@ -33,13 +33,13 @@
         <mat-icon class="error-icon">error_outline</mat-icon>
         <h3>Algo salió mal</h3>
         <p>{{ error }}</p>
-        <button mat-flat-button class="netflix-button-primary" (click)="retry()">
+        <button mat-flat-button class="exploreflix-button-primary" (click)="retry()">
           Reintentar
         </button>
       </div>
 
       <!-- Content based on current view -->
-      <div *ngIf="!loading && !error" class="netflix-content">
+      <div *ngIf="!loading && !error" class="exploreflix-content">
 
         <!-- Vista principal con categorías -->
         <div *ngIf="currentView === 'all'" class="main-content">
@@ -172,7 +172,7 @@
               <p>Agrega películas que te gusten para verlas más tarde</p>
               <button
                 mat-flat-button
-                class="netflix-button-primary"
+                class="exploreflix-button-primary"
                 (click)="currentView = 'all'">
                 Explorar películas
               </button>
@@ -231,7 +231,7 @@
               <p>Guarda películas que quieras ver más tarde</p>
               <button
                 mat-flat-button
-                class="netflix-button-primary"
+                class="exploreflix-button-primary"
                 (click)="currentView = 'all'">
                 Explorar películas
               </button>

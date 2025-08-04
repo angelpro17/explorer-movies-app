@@ -7,7 +7,7 @@
   overflow: hidden;
   display: flex;
   align-items: flex-end;
-  color: var(--netflix-white);
+  color: var(--exploreflix-white);
 }
 
 .hero-background {
@@ -92,14 +92,14 @@
 
 .hero-year,
 .hero-duration {
-  color: var(--netflix-text-grey);
+  color: var(--exploreflix-text-grey);
 }
 
 .hero-overview {
   font-size: 18px;
   line-height: 1.4;
   margin: 0 0 30px 0;
-  color: var(--netflix-white);
+  color: var(--exploreflix-white);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
   max-width: 480px;
 }
@@ -148,20 +148,20 @@
   border: 2px solid rgba(255, 255, 255, 0.7);
   border-radius: 50%;
   background-color: rgba(42, 42, 42, 0.6);
-  color: var(--netflix-white);
+  color: var(--exploreflix-white);
   transition: all 0.2s ease;
 }
 
 .favorite-button:hover {
-  border-color: var(--netflix-white);
+  border-color: var(--exploreflix-white);
   background-color: rgba(255, 255, 255, 0.1);
   transform: scale(1.1);
 }
 
 .favorite-button.favorited {
-  background-color: var(--netflix-white);
-  color: var(--netflix-black);
-  border-color: var(--netflix-white);
+  background-color: var(--exploreflix-white);
+  color: var(--exploreflix-black);
+  border-color: var(--exploreflix-white);
 }
 
 .favorite-button mat-icon {
@@ -184,12 +184,12 @@
   border: 2px solid rgba(255, 255, 255, 0.7);
   border-radius: 50%;
   background-color: rgba(42, 42, 42, 0.6);
-  color: var(--netflix-white);
+  color: var(--exploreflix-white);
   transition: all 0.2s ease;
 }
 
 .volume-button:hover {
-  border-color: var(--netflix-white);
+  border-color: var(--exploreflix-white);
   background-color: rgba(255, 255, 255, 0.1);
   transform: scale(1.1);
 }

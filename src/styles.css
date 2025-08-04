@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
-/* Netflix-style Reset y configuración base */
+/* exploreflix-style Reset y configuración base */
 * {
   box-sizing: border-box;
 }
@@ -20,24 +20,24 @@ body {
   overflow-x: hidden;
 }
 
-/* Netflix color palette */
+/* exploreflix color palette */
 :root {
-  --netflix-red: #e50914;
-  --netflix-dark-red: #b20710;
-  --netflix-black: #141414;
-  --netflix-dark-grey: #181818;
-  --netflix-grey: #333333;
-  --netflix-light-grey: #564d4d;
-  --netflix-white: #ffffff;
-  --netflix-text-grey: #b3b3b3;
+  --exploreflix-red: #e50914;
+  --exploreflix-dark-red: #b20710;
+  --exploreflix-black: #141414;
+  --exploreflix-dark-grey: #181818;
+  --exploreflix-grey: #333333;
+  --exploreflix-light-grey: #564d4d;
+  --exploreflix-white: #ffffff;
+  --exploreflix-text-grey: #b3b3b3;
 }
 
 /* Configuración de Material Design para tema oscuro */
 .mat-mdc-card {
   border-radius: 8px !important;
   box-shadow: none !important;
-  background-color: var(--netflix-dark-grey) !important;
-  color: var(--netflix-white) !important;
+  background-color: var(--exploreflix-dark-grey) !important;
+  color: var(--exploreflix-white) !important;
 }
 
 .mat-mdc-button {
@@ -57,13 +57,13 @@ body {
   border-radius: 4px !important;
   font-weight: 600 !important;
   text-transform: none !important;
-  border-color: var(--netflix-light-grey) !important;
-  color: var(--netflix-white) !important;
+  border-color: var(--exploreflix-light-grey) !important;
+  color: var(--exploreflix-white) !important;
 }
 
 .mat-mdc-stroked-button:hover {
-  background-color: var(--netflix-grey) !important;
-  border-color: var(--netflix-white) !important;
+  background-color: var(--exploreflix-grey) !important;
+  border-color: var(--exploreflix-white) !important;
 }
 
 .mat-mdc-form-field {
@@ -71,52 +71,52 @@ body {
 }
 
 .mat-mdc-form-field .mat-mdc-form-field-flex {
-  background-color: var(--netflix-grey) !important;
+  background-color: var(--exploreflix-grey) !important;
   border-radius: 4px !important;
 }
 
 .mat-mdc-form-field .mat-mdc-text-field-wrapper {
-  background-color: var(--netflix-grey) !important;
+  background-color: var(--exploreflix-grey) !important;
 }
 
 .mat-mdc-form-field input {
-  color: var(--netflix-white) !important;
+  color: var(--exploreflix-white) !important;
 }
 
 .mat-mdc-form-field .mat-mdc-form-field-label {
-  color: var(--netflix-text-grey) !important;
+  color: var(--exploreflix-text-grey) !important;
 }
 
 .mat-mdc-chip {
   border-radius: 16px !important;
   font-weight: 500 !important;
-  background-color: var(--netflix-grey) !important;
-  color: var(--netflix-white) !important;
+  background-color: var(--exploreflix-grey) !important;
+  color: var(--exploreflix-white) !important;
 }
 
-/* Netflix-style Scrollbar */
+/* exploreflix-style Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--netflix-black);
+  background: var(--exploreflix-black);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--netflix-light-grey);
+  background: var(--exploreflix-light-grey);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--netflix-text-grey);
+  background: var(--exploreflix-text-grey);
 }
 
 /* Scrollbar para Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--netflix-light-grey) var(--netflix-black);
+  scrollbar-color: var(--exploreflix-light-grey) var(--exploreflix-black);
 }
 
 /* Utilidades */
@@ -150,7 +150,7 @@ body {
 .p-3 { padding: 1.5rem !important; }
 .p-4 { padding: 2rem !important; }
 
-/* Netflix-style Animaciones */
+/* exploreflix-style Animaciones */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -196,10 +196,10 @@ body {
   animation: scaleIn 0.2s ease-out;
 }
 
-/* Netflix button styles */
-.netflix-button-primary {
-  background-color: var(--netflix-red) !important;
-  color: var(--netflix-white) !important;
+/* exploreflix button styles */
+.exploreflix-button-primary {
+  background-color: var(--exploreflix-red) !important;
+  color: var(--exploreflix-white) !important;
   border: none !important;
   font-weight: 600 !important;
   padding: 8px 24px !important;
@@ -207,13 +207,13 @@ body {
   transition: background-color 0.2s ease !important;
 }
 
-.netflix-button-primary:hover {
-  background-color: var(--netflix-dark-red) !important;
+.exploreflix-button-primary:hover {
+  background-color: var(--exploreflix-dark-red) !important;
 }
 
-.netflix-button-secondary {
+.exploreflix-button-secondary {
   background-color: rgba(255, 255, 255, 0.3) !important;
-  color: var(--netflix-white) !important;
+  color: var(--exploreflix-white) !important;
   border: none !important;
   font-weight: 600 !important;
   padding: 8px 24px !important;
@@ -221,7 +221,7 @@ body {
   transition: background-color 0.2s ease !important;
 }
 
-.netflix-button-secondary:hover {
+.exploreflix-button-secondary:hover {
   background-color: rgba(255, 255, 255, 0.2) !important;
 }
 
@@ -238,7 +238,7 @@ body {
   }
 }
 
-/* Netflix loading spinner override */
+/* exploreflix loading spinner override */
 .mat-mdc-progress-spinner circle {
-  stroke: var(--netflix-red) !important;
+  stroke: var(--exploreflix-red) !important;
 }

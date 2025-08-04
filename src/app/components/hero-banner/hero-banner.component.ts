@@ -46,7 +46,7 @@ import { TMDBMovie } from '../../services/movies.service';
           <div class="hero-actions">
             <button
               mat-flat-button
-              class="play-button netflix-button-primary"
+              class="play-button exploreflix-button-primary"
               [routerLink]="['/movie', featuredMovie.id]">
               <mat-icon>play_arrow</mat-icon>
               Reproducir
@@ -54,7 +54,7 @@ import { TMDBMovie } from '../../services/movies.service';
 
             <button
               mat-flat-button
-              class="info-button netflix-button-secondary"
+              class="info-button exploreflix-button-secondary"
               [routerLink]="['/movie', featuredMovie.id]">
               <mat-icon>info_outline</mat-icon>
               Más información

@@ -121,20 +121,21 @@ Una aplicación moderna y profesional para explorar películas utilizando la API
 ```
 src/
 ├── app/
-│   ├── movies/
-│   │   ├── movies.component.ts          # Componente principal
-│   │   ├── movie-detail.component.ts    # Detalle de película
-│   │   ├── movie-card.component.ts      # Tarjeta de película
-│   │   ├── movie-filters.component.ts   # Filtros avanzados
-│   │   ├── movie-categories.component.ts # Categorías
-│   │   └── *.html, *.css                # Templates y estilos
+│   ├── components/
+│   │   ├── hero-banner      
+│   │   ├── movie-card    
+│   │   ├── movie-categories     
+│   │   ├── movie-detail   
+│   │   ├── movie-filters 
+│   │   └── movie-row                
+│   │   └── exploreflix-header               
 │   ├── services/
-│   │   └── movies.service.ts            # Servicio de API
+│   │   └── movies.service.ts           
 │   ├── environments/
-│   │   └── environment.ts               # Configuración
-│   └── app.*                            # Componente raíz
-├── styles.css                           # Estilos globales
-└── main.ts                              # Punto de entrada
+│   │   └── environment.ts              
+│   └── app.*                            
+├── styles.css                           
+└── main.ts                              
 ```
 
 ## 🔧 Configuración Avanzada

@@ -8,6 +8,6 @@
 }
 .main {
   min-height: 100vh;
-  background-color: var(--netflix-black);
-  color: var(--netflix-white);
+  background-color: var(--exploreflix-black);
+  color: var(--exploreflix-white);
 }

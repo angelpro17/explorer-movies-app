@@ -12,7 +12,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
 import {forkJoin, Subject} from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { NetflixHeaderComponent } from '../../components/netflix-header/netflix-header.component';
+import { exploreflixHeaderComponent } from '../../components/exploreflix-header/exploreflix-header.component';
 import { HeroBannerComponent } from '../../components/hero-banner/hero-banner.component';
 import { MovieRowComponent } from '../../components/movie-row/movie-row.component';
 
@@ -36,7 +36,7 @@ interface MovieCategory {
     MatProgressSpinnerModule,
     MatSnackBarModule,
     RouterModule,
-    NetflixHeaderComponent,
+    exploreflixHeaderComponent,
     HeroBannerComponent,
     MovieRowComponent
   ],
@@ -53,7 +53,7 @@ export class MoviesComponent implements OnInit {
   error = '';
   currentView: 'all' | 'favorites' | 'watchlist' = 'all';
 
-  // Movie categories for Netflix-style rows
+  // Movie categories for exploreflix-style rows
   movieCategories: MovieCategory[] = [
     { title: 'Populares', movies: [], category: 'popular' },
     { title: 'Mejor Valoradas', movies: [], category: 'top-rated' },

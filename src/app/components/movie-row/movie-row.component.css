@@ -4,7 +4,7 @@
 }
 
 .row-title {
-  color: var(--netflix-white);
+  color: var(--exploreflix-white);
   font-size: 20px;
   font-weight: 700;
   margin: 0 0 10px 60px;
@@ -26,7 +26,7 @@
   width: 60px;
   height: 60px;
   background-color: rgba(0, 0, 0, 0.7);
-  color: var(--netflix-white);
+  color: var(--exploreflix-white);
   border-radius: 50%;
   opacity: 0;
   visibility: hidden;
@@ -98,7 +98,7 @@
   height: 300px;
   border-radius: 8px;
   overflow: hidden;
-  background-color: var(--netflix-dark-grey);
+  background-color: var(--exploreflix-dark-grey);
 }
 
 .movie-poster {
@@ -118,8 +118,8 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, var(--netflix-grey) 0%, var(--netflix-dark-grey) 100%);
-  color: var(--netflix-text-grey);
+  background: linear-gradient(135deg, var(--exploreflix-grey) 0%, var(--exploreflix-dark-grey) 100%);
+  color: var(--exploreflix-text-grey);
 }
 
 .no-poster mat-icon {
@@ -154,7 +154,7 @@
 }
 
 .overlay-content {
-  color: var(--netflix-white);
+  color: var(--exploreflix-white);
 }
 
 .movie-info {
@@ -177,7 +177,7 @@
   align-items: center;
   gap: 12px;
   font-size: 12px;
-  color: var(--netflix-text-grey);
+  color: var(--exploreflix-text-grey);
 }
 
 .rating {
@@ -204,7 +204,7 @@
   background-color: rgba(42, 42, 42, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 50%;
-  color: var(--netflix-white);
+  color: var(--exploreflix-white);
   transition: all 0.2s ease;
   align-items: center;
   justify-content: center;
@@ -213,9 +213,9 @@
 }
 
 .movie-actions button:hover {
-  background-color: var(--netflix-white);
-  color: var(--netflix-black);
-  border-color: var(--netflix-white);
+  background-color: var(--exploreflix-white);
+  color: var(--exploreflix-black);
+  border-color: var(--exploreflix-white);
   transform: scale(1.1);
 }
 
@@ -226,21 +226,21 @@
 }
 
 .play-btn:hover {
-  background-color: var(--netflix-red) !important;
-  color: var(--netflix-white) !important;
-  border-color: var(--netflix-red) !important;
+  background-color: var(--exploreflix-red) !important;
+  color: var(--exploreflix-white) !important;
+  border-color: var(--exploreflix-red) !important;
 }
 
 .favorite-btn.favorited {
-  background-color: var(--netflix-red);
-  border-color: var(--netflix-red);
-  color: var(--netflix-white);
+  background-color: var(--exploreflix-red);
+  border-color: var(--exploreflix-red);
+  color: var(--exploreflix-white);
 }
 
 .watchlist-btn.in-watchlist {
   background-color: #46d369;
   border-color: #46d369;
-  color: var(--netflix-white);
+  color: var(--exploreflix-white);
 }
 
 /* Responsive */

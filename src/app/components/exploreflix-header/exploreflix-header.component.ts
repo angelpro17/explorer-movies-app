@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
 import {MatDivider} from '@angular/material/divider';
 
 @Component({
-  selector: 'app-netflix-header',
+  selector: 'app-exploreflix-header',
   standalone: true,
   imports: [
     CommonModule,
@@ -24,11 +24,11 @@ import {MatDivider} from '@angular/material/divider';
     MatDivider
   ],
   template: `
-    <header class="netflix-header">
+    <header class="exploreflix-header">
       <div class="header-container">
         <!-- Logo y navegación principal -->
         <div class="header-left">
-          <div class="netflix-logo">
+          <div class="exploreflix-logo">
             <mat-icon class="logo-icon">movie</mat-icon>
             <span class="logo-text">ExploreFlix</span>
           </div>
@@ -158,9 +158,9 @@ import {MatDivider} from '@angular/material/divider';
       </div>
     </header>
   `,
-  styleUrls: ['./netflix-header.component.css']
+  styleUrls: ['./exploreflix-header.component.css']
 })
-export class NetflixHeaderComponent {
+export class exploreflixHeaderComponent {
   @Input() currentView: 'all' | 'favorites' | 'watchlist' = 'all';
   @Input() favoritesCount = 0;
   @Input() watchlistCount = 0;
