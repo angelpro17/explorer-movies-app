@@ -1,0 +1,333 @@
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TMDBMovie } from '../services/movies.service';
+
+@Component({
+  selector: 'app-movie-card',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatChipsModule,
+    MatTooltipModule
+  ],
+  template: `
+    <mat-card class="movie-card" [routerLink]="['/movie', movie.id]">
+      <div class="card-image-container">
+        <img 
+          *ngIf="movie.poster_path" 
+          [src]="imageBase + movie.poster_path" 
+          [alt]="movie.title"
+          class="movie-poster"
+          loading="lazy"
+        />
+        <div *ngIf="!movie.poster_path" class="no-poster">
+          <mat-icon>movie</mat-icon>
+          <span>Sin imagen</span>
+        </div>
+        
+        <!-- Overlay con información -->
+        <div class="card-overlay">
+          <div class="overlay-content">
+            <div class="rating-badge">
+              <mat-icon>star</mat-icon>
+              <span>{{ movie.vote_average.toFixed(1) }}</span>
+            </div>
+            
+            <div class="overlay-actions">
+              <button 
+                mat-icon-button 
+                class="favorite-btn"
+                [class.favorited]="isFavorite"
+                (click)="toggleFavorite($event)"
+                matTooltip="{{ isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos' }}">
+                <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
+              </button>
+              
+              <button 
+                mat-icon-button 
+                class="watchlist-btn"
+                [class.in-watchlist]="isInWatchlist"
+                (click)="toggleWatchlist($event)"
+                matTooltip="{{ isInWatchlist ? 'Quitar de watchlist' : 'Agregar a watchlist' }}">
+                <mat-icon>{{ isInWatchlist ? 'bookmark' : 'bookmark_border' }}</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <mat-card-content class="card-content">
+        <div class="movie-info">
+          <h3 class="movie-title" [matTooltip]="movie.title">
+            {{ movie.title }}
+          </h3>
+          
+          <div class="movie-meta">
+            <span class="release-year">
+              {{ getReleaseYear(movie.release_date) }}
+            </span>
+            <span class="rating">
+              <mat-icon class="star-icon">star</mat-icon>
+              {{ movie.vote_average.toFixed(1) }}
+            </span>
+          </div>
+          
+          <p class="movie-overview" *ngIf="movie.overview">
+            {{ truncateOverview(movie.overview) }}
+          </p>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions class="card-actions">
+        <button 
+          mat-stroked-button 
+          class="detail-btn"
+          [routerLink]="['/movie', movie.id]">
+          <mat-icon>info</mat-icon>
+          Ver detalles
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  `,
+  styles: [`
+    .movie-card {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .movie-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .card-image-container {
+      position: relative;
+      height: 300px;
+      overflow: hidden;
+    }
+
+    .movie-poster {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .movie-card:hover .movie-poster {
+      transform: scale(1.05);
+    }
+
+    .no-poster {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: #666;
+    }
+
+    .no-poster mat-icon {
+      font-size: 3rem;
+      width: 3rem;
+      height: 3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.1) 0%,
+        rgba(0,0,0,0.3) 50%,
+        rgba(0,0,0,0.7) 100%
+      );
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .movie-card:hover .card-overlay {
+      opacity: 1;
+    }
+
+    .overlay-content {
+      width: 100%;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .rating-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      background: rgba(255,255,255,0.9);
+      color: #333;
+      padding: 0.25rem 0.5rem;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .rating-badge mat-icon {
+      font-size: 1rem;
+      width: 1rem;
+      height: 1rem;
+      color: #ffd700;
+    }
+
+    .overlay-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .favorite-btn, .watchlist-btn {
+      background: rgba(255,255,255,0.9);
+      color: #666;
+      transition: all 0.2s ease;
+    }
+
+    .favorite-btn:hover, .watchlist-btn:hover {
+      background: white;
+      transform: scale(1.1);
+    }
+
+    .favorite-btn.favorited {
+      color: #e91e63;
+    }
+
+    .watchlist-btn.in-watchlist {
+      color: #2196f3;
+    }
+
+    .card-content {
+      padding: 1rem;
+    }
+
+    .movie-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .movie-title {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #333;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .movie-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .release-year {
+      background: #f0f0f0;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    .rating {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-weight: 600;
+    }
+
+    .star-icon {
+      font-size: 1rem;
+      width: 1rem;
+      height: 1rem;
+      color: #ffd700;
+    }
+
+    .movie-overview {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #666;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-actions {
+      padding: 0 1rem 1rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .detail-btn {
+      width: 100%;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .detail-btn:hover {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+  `]
+})
+export class MovieCardComponent {
+  @Input() movie!: TMDBMovie;
+  @Input() isFavorite = false;
+  @Input() isInWatchlist = false;
+  @Output() favoriteToggled = new EventEmitter<TMDBMovie>();
+  @Output() watchlistToggled = new EventEmitter<TMDBMovie>();
+
+  imageBase = 'https://image.tmdb.org/t/p/w500';
+
+  getReleaseYear(date: string): string {
+    return date ? date.split('-')[0] : 'N/A';
+  }
+
+  truncateOverview(overview: string): string {
+    return overview.length > 100 ? overview.substring(0, 100) + '...' : overview;
+  }
+
+  toggleFavorite(event: Event) {
+    event.stopPropagation();
+    this.favoriteToggled.emit(this.movie);
+  }
+
+  toggleWatchlist(event: Event) {
+    event.stopPropagation();
+    this.watchlistToggled.emit(this.movie);
+  }
+} 

@@ -1,0 +1,160 @@
+<div class="app-container">
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-content">
+      <div class="header-title">
+        <mat-icon class="app-icon">movie</mat-icon>
+        <h1>Explorer Movies</h1>
+      </div>
+      
+      <!-- Barra de navegación -->
+      <nav class="nav-tabs">
+        <button 
+          mat-button 
+          [class.active]="currentView === 'all'"
+          (click)="currentView = 'all'">
+          <mat-icon>home</mat-icon>
+          Inicio
+        </button>
+        <button 
+          mat-button 
+          [class.active]="currentView === 'favorites'"
+          (click)="currentView = 'favorites'">
+          <mat-icon>favorite</mat-icon>
+          Favoritas ({{ favorites.length }})
+        </button>
+        <button 
+          mat-button 
+          [class.active]="currentView === 'watchlist'"
+          (click)="currentView = 'watchlist'">
+          <mat-icon>bookmark</mat-icon>
+          Watchlist ({{ watchlist.length }})
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <!-- Búsqueda -->
+    <section class="search-section" *ngIf="currentView === 'all'">
+      <div class="search-container">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Buscar películas...</mat-label>
+          <input matInput 
+                 [(ngModel)]="searchTerm" 
+                 (ngModelChange)="onSearchChange($event)"
+                 placeholder="Escribe el título de una película..." />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </div>
+    </section>
+
+    <!-- Categorías -->
+    <section class="categories-section" *ngIf="currentView === 'all' && !searchTerm">
+      <app-movie-categories (categorySelected)="onCategoryChange($event)"></app-movie-categories>
+    </section>
+
+    <!-- Filtros -->
+    <section class="filters-section" *ngIf="currentView === 'all'">
+      <app-movie-filters 
+        [currentFilters]="currentFilters"
+        (filtersChanged)="onFiltersChange($event)">
+      </app-movie-filters>
+    </section>
+
+    <!-- Contenido principal -->
+    <section class="content-section">
+      <!-- Título de la sección -->
+      <div class="section-header">
+        <h2>{{ getCurrentTitle() }}</h2>
+        <div class="section-stats" *ngIf="currentView === 'all'">
+          <span class="stat-item">
+            <mat-icon>movie</mat-icon>
+            {{ movies.length }} películas
+          </span>
+          <span class="stat-item" *ngIf="totalPages > 1">
+            <mat-icon>pages</mat-icon>
+            Página {{ page }} de {{ totalPages }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Estado de carga -->
+      <div *ngIf="loading" class="loading-container">
+        <mat-spinner diameter="50"></mat-spinner>
+        <p>Cargando películas...</p>
+      </div>
+
+      <!-- Error -->
+      <div *ngIf="error && !loading" class="error-container">
+        <mat-icon class="error-icon">error</mat-icon>
+        <p>{{ error }}</p>
+        <button mat-flat-button color="primary" (click)="applyFilters()">
+          Reintentar
+        </button>
+      </div>
+
+      <!-- Grid de películas -->
+      <div *ngIf="!loading && !error" class="movies-grid">
+        <div *ngIf="getCurrentMovies().length; else noResults" class="grid-container">
+          <app-movie-card 
+            *ngFor="let movie of getCurrentMovies()"
+            [movie]="movie"
+            [isFavorite]="isFavorite(movie)"
+            [isInWatchlist]="isInWatchlist(movie)"
+            (favoriteToggled)="toggleFavorite($event)"
+            (watchlistToggled)="toggleWatchlist($event)">
+          </app-movie-card>
+        </div>
+
+        <ng-template #noResults>
+          <div class="no-results">
+            <mat-icon class="no-results-icon">search_off</mat-icon>
+            <h3>No se encontraron resultados</h3>
+            <p *ngIf="searchTerm">
+              No hay películas que coincidan con "{{ searchTerm }}"
+            </p>
+            <p *ngIf="currentView === 'favorites'">
+              No tienes películas favoritas aún. ¡Explora el catálogo y agrega algunas!
+            </p>
+            <p *ngIf="currentView === 'watchlist'">
+              Tu watchlist está vacía. ¡Agrega películas que te gustaría ver!
+            </p>
+            <button 
+              *ngIf="currentView !== 'all'"
+              mat-flat-button 
+              color="primary" 
+              (click)="currentView = 'all'">
+              Explorar películas
+            </button>
+          </div>
+        </ng-template>
+      </div>
+
+      <!-- Paginación -->
+      <div *ngIf="!loading && !error && totalPages > 1 && currentView === 'all'" class="pagination-container">
+        <div class="pagination">
+          <button 
+            mat-stroked-button 
+            (click)="prevPage()" 
+            [disabled]="page === 1">
+            <mat-icon>chevron_left</mat-icon>
+            Anterior
+          </button>
+          
+          <div class="page-info">
+            <span>Página {{ page }} de {{ totalPages }}</span>
+          </div>
+          
+          <button 
+            mat-stroked-button 
+            (click)="nextPage()" 
+            [disabled]="page === totalPages">
+            Siguiente
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
