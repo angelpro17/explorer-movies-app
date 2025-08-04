@@ -14,8 +14,8 @@ html, body {
 body { 
   margin: 0; 
   font-family: 'Roboto', 'Helvetica Neue', sans-serif;
-  background-color: #f5f7fa;
-  color: #333;
+  background-color: var(--background-color);
+  color: var(--text-color);
   line-height: 1.6;
 }
 
@@ -23,6 +23,7 @@ body {
 .mat-mdc-card {
   border-radius: 12px !important;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1) !important;
+  background: var(--surface-color) !important;
 }
 
 .mat-mdc-button {
@@ -129,4 +130,13 @@ body {
   .hide-desktop {
     display: none !important;
   }
+}
+
+/* Netflix Theme Variables */
+:root {
+  --background-color: #141414;
+  --surface-color: #181818;
+  --text-color: #e5e5e5;
+  --muted-text-color: #b3b3b3;
+  --primary-color: #e50914;
 }

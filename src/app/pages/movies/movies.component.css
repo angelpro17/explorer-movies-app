@@ -1,14 +1,14 @@
 /* Contenedor principal */
 .app-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: var(--background-color);
 }
 
 /* Header */
 .app-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--background-color);
   color: white;
-  box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.8);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -51,7 +51,7 @@
 }
 
 .nav-tabs button {
-  color: rgba(255,255,255,0.8);
+  color: var(--muted-text-color);
   border-radius: 8px;
   padding: 0.5rem 1rem;
   transition: all 0.2s ease;
@@ -59,13 +59,14 @@
 }
 
 .nav-tabs button:hover {
-  background: rgba(255,255,255,0.1);
-  color: white;
+  color: #fff;
+  background: rgba(255,255,255,0.05);
 }
 
 .nav-tabs button.active {
-  background: rgba(255,255,255,0.2);
-  color: white;
+  color: #fff;
+  background: transparent;
+  border-bottom: 2px solid var(--primary-color);
 }
 
 .nav-tabs mat-icon {
@@ -106,10 +107,10 @@
 
 /* Sección de contenido */
 .content-section {
-  background: white;
+  background: transparent;
   border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  padding: 0;
+  box-shadow: none;
 }
 
 .section-header {
@@ -125,7 +126,7 @@
   margin: 0;
   font-size: 1.75rem;
   font-weight: 600;
-  color: #333;
+  color: #fff;
 }
 
 .section-stats {
@@ -138,11 +139,11 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: #f8f9fa;
+  background: rgba(255,255,255,0.1);
   padding: 0.5rem 1rem;
   border-radius: 8px;
   font-size: 0.9rem;
-  color: #666;
+  color: var(--muted-text-color);
   font-weight: 500;
 }
 
@@ -165,7 +166,7 @@
 
 .loading-container p {
   margin-top: 1rem;
-  color: #666;
+  color: var(--text-color);
   font-size: 1.1rem;
 }
 
@@ -183,6 +184,7 @@
 .error-container p {
   margin-bottom: 1rem;
   font-size: 1.1rem;
+  color: var(--text-color);
 }
 
 /* Grid de películas */
@@ -205,7 +207,7 @@
   justify-content: center;
   padding: 4rem 2rem;
   text-align: center;
-  color: #666;
+  color: var(--text-color);
 }
 
 .no-results-icon {
@@ -258,12 +260,14 @@
   border-radius: 8px;
   font-weight: 500;
   transition: all 0.2s ease;
+  color: var(--text-color);
+  border-color: var(--muted-text-color);
 }
 
 .pagination button:hover:not(:disabled) {
-  background: #667eea;
-  color: white;
-  border-color: #667eea;
+  background: var(--primary-color);
+  color: #fff;
+  border-color: var(--primary-color);
 }
 
 /* Responsive */
