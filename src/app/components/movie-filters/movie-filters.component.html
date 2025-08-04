@@ -1,0 +1,85 @@
+<mat-expansion-panel class="filters-panel">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      <mat-icon>filter_list</mat-icon>
+      Filtros Avanzados
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <div class="filters-content">
+    <!-- Géneros -->
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Géneros</mat-label>
+      <mat-select [(ngModel)]="selectedGenres" multiple (selectionChange)="onFiltersChange()">
+        <mat-option *ngFor="let genre of genres" [value]="genre.id">
+          {{ genre.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Géneros seleccionados -->
+    <div class="selected-chips" *ngIf="selectedGenres.length > 0">
+      <mat-chip *ngFor="let genreId of selectedGenres" 
+               (removed)="removeGenre(genreId)" 
+               removable>
+        {{ getGenreName(genreId) }}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </div>
+
+    <!-- Calificación mínima -->
+    <div class="rating-filter">
+      <label>Calificación mínima: {{ filters.minRating }}/10</label>
+      <mat-slider [(ngModel)]="filters.minRating" 
+                 [min]="0" 
+                 [max]="10" 
+                 [step]="0.5"
+                 (valueChange)="onFiltersChange()">
+      </mat-slider>
+    </div>
+
+    <!-- Rango de años -->
+    <div class="year-range">
+      <mat-form-field appearance="outline" class="year-field">
+        <mat-label>Desde</mat-label>
+        <input matInput type="number" 
+               [(ngModel)]="filters.yearFrom" 
+               [min]="1900" 
+               [max]="currentYear"
+               (ngModelChange)="onFiltersChange()">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="year-field">
+        <mat-label>Hasta</mat-label>
+        <input matInput type="number" 
+               [(ngModel)]="filters.yearTo" 
+               [min]="1900" 
+               [max]="currentYear + 5"
+               (ngModelChange)="onFiltersChange()">
+      </mat-form-field>
+    </div>
+
+    <!-- Ordenamiento -->
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Ordenar por</mat-label>
+      <mat-select [(ngModel)]="filters.sortBy" (selectionChange)="onFiltersChange()">
+        <mat-option value="popularity">Popularidad</mat-option>
+        <mat-option value="rating">Calificación</mat-option>
+        <mat-option value="date">Fecha de lanzamiento</mat-option>
+        <mat-option value="title">Título</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Botones de acción -->
+    <div class="filter-actions">
+      <button mat-stroked-button (click)="clearFilters()">
+        <mat-icon>clear</mat-icon>
+        Limpiar filtros
+      </button>
+      <button mat-flat-button color="primary" (click)="applyFilters()">
+        <mat-icon>search</mat-icon>
+        Aplicar filtros
+      </button>
+    </div>
+  </div>
+</mat-expansion-panel>

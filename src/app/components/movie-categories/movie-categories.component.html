@@ -1,0 +1,21 @@
+<div class="categories-container">
+  <mat-tab-group 
+    (selectedTabChange)="onCategoryChange($event.index)"
+    class="categories-tabs"
+    backgroundColor="primary">
+    
+    <mat-tab *ngFor="let category of categories; let i = index" 
+             [label]="category.label"
+             class="category-tab">
+      <div class="tab-content">
+        <div class="category-header">
+          <mat-icon class="category-icon">{{ category.icon }}</mat-icon>
+          <div class="category-info">
+            <h3>{{ category.label }}</h3>
+            <p>{{ category.description }}</p>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

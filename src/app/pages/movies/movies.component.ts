@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MoviesService, TMDBMovie, TMDBMovieDetail, SearchResponse } from '../services/movies.service';
+import { MoviesService, TMDBMovie, TMDBMovieDetail, SearchResponse } from '../../services/movies.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,13 +9,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
 import { RouterModule } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { MovieFiltersComponent, MovieFilters } from './movie-filters.component';
-import { MovieCategoriesComponent, MovieCategory } from './movie-categories.component';
-import { MovieCardComponent } from './movie-card.component';
+import { MovieFiltersComponent, MovieFilters } from '../../components/movie-filters/movie-filters.component';
+import { MovieCategoriesComponent, MovieCategory } from '../../components/movie-categories/movie-categories.component';
+import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 
 @Component({
   selector: 'app-movies',

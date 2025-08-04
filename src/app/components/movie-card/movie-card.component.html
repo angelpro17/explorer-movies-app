@@ -1,0 +1,77 @@
+<mat-card class="movie-card" [routerLink]="['/movie', movie.id]">
+  <div class="card-image-container">
+    <img 
+      *ngIf="movie.poster_path" 
+      [src]="imageBase + movie.poster_path" 
+      [alt]="movie.title"
+      class="movie-poster"
+      loading="lazy"
+    />
+    <div *ngIf="!movie.poster_path" class="no-poster">
+      <mat-icon>movie</mat-icon>
+      <span>Sin imagen</span>
+    </div>
+    
+    <!-- Overlay con información -->
+    <div class="card-overlay">
+      <div class="overlay-content">
+        <div class="rating-badge">
+          <mat-icon>star</mat-icon>
+          <span>{{ movie.vote_average.toFixed(1) }}</span>
+        </div>
+        
+        <div class="overlay-actions">
+          <button 
+            mat-icon-button 
+            class="favorite-btn"
+            [class.favorited]="isFavorite"
+            (click)="toggleFavorite($event)"
+            matTooltip="{{ isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos' }}">
+            <mat-icon>{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
+          </button>
+          
+          <button 
+            mat-icon-button 
+            class="watchlist-btn"
+            [class.in-watchlist]="isInWatchlist"
+            (click)="toggleWatchlist($event)"
+            matTooltip="{{ isInWatchlist ? 'Quitar de watchlist' : 'Agregar a watchlist' }}">
+            <mat-icon>{{ isInWatchlist ? 'bookmark' : 'bookmark_border' }}</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <mat-card-content class="card-content">
+    <div class="movie-info">
+      <h3 class="movie-title" [matTooltip]="movie.title">
+        {{ movie.title }}
+      </h3>
+      
+      <div class="movie-meta">
+        <span class="release-year">
+          {{ getReleaseYear(movie.release_date) }}
+        </span>
+        <span class="rating">
+          <mat-icon class="star-icon">star</mat-icon>
+          {{ movie.vote_average.toFixed(1) }}
+        </span>
+      </div>
+      
+      <p class="movie-overview" *ngIf="movie.overview">
+        {{ truncateOverview(movie.overview) }}
+      </p>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions class="card-actions">
+    <button 
+      mat-stroked-button 
+      class="detail-btn"
+      [routerLink]="['/movie', movie.id]">
+      <mat-icon>info</mat-icon>
+      Ver detalles
+    </button>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,179 @@
+<div class="detail-container" *ngIf="!loading">
+  <!-- Hero Section con Backdrop -->
+  <div class="hero-section" *ngIf="movie?.backdrop_path">
+    <div class="backdrop-overlay">
+      <img 
+        [src]="'https://image.tmdb.org/t/p/original' + (movie?.backdrop_path || '')" 
+        [alt]="movie?.title || ''"
+        class="backdrop-image"
+      />
+      <div class="backdrop-content">
+        <div class="hero-info">
+          <h1 class="movie-title">{{ movie?.title }}</h1>
+          <p class="movie-tagline" *ngIf="movie?.tagline">{{ movie?.tagline }}</p>
+          <div class="movie-meta">
+            <span class="release-year">{{ getReleaseYear(movie?.release_date) }}</span>
+            <span class="runtime" *ngIf="movie?.runtime">{{ formatRuntime(movie?.runtime || 0) }}</span>
+            <span class="rating">
+              <mat-icon>star</mat-icon>
+              {{ movie?.vote_average?.toFixed(1) }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-wrapper">
+    <div class="main-content">
+      <!-- Información principal -->
+      <mat-card class="info-card">
+        <div class="movie-header">
+          <div class="poster-section">
+            <img 
+              *ngIf="movie?.poster_path" 
+              [src]="'https://image.tmdb.org/t/p/w500' + (movie?.poster_path || '')" 
+              [alt]="movie?.title || ''"
+              class="movie-poster"
+            />
+            <div *ngIf="!movie?.poster_path" class="no-poster">
+              <mat-icon>movie</mat-icon>
+              <span>Sin imagen</span>
+            </div>
+          </div>
+          
+          <div class="movie-details">
+            <h2 *ngIf="!movie?.backdrop_path">{{ movie?.title }}</h2>
+            
+            <div class="genres" *ngIf="movie?.genres?.length">
+              <mat-chip *ngFor="let genre of movie?.genres || []" class="genre-chip">
+                {{ genre.name }}
+              </mat-chip>
+            </div>
+            
+            <div class="overview">
+              <h3>Sinopsis</h3>
+              <p>{{ movie?.overview || 'Sin descripción disponible.' }}</p>
+            </div>
+            
+            <div class="additional-info">
+              <div class="info-item" *ngIf="movie?.status">
+                <strong>Estado:</strong> {{ movie?.status }}
+              </div>
+              <div class="info-item" *ngIf="movie?.budget">
+                <strong>Presupuesto:</strong> {{ formatCurrency(movie?.budget || 0) }}
+              </div>
+              <div class="info-item" *ngIf="movie?.revenue">
+                <strong>Ingresos:</strong> {{ formatCurrency(movie?.revenue || 0) }}
+              </div>
+              <div class="info-item" *ngIf="movie?.homepage">
+                <strong>Sitio web:</strong>
+                <a [href]="movie?.homepage || '#'" target="_blank" class="homepage-link">
+                  Visitar sitio oficial
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+
+      <!-- Tabs para contenido adicional -->
+      <mat-card class="tabs-card">
+        <mat-tab-group>
+          <!-- Trailer -->
+          <mat-tab label="Trailer">
+            <div class="tab-content">
+              <div *ngIf="trailerUrl; else noTrailer" class="trailer-container">
+                <iframe 
+                  [src]="trailerUrl" 
+                  frameborder="0" 
+                  allowfullscreen
+                  class="trailer-iframe">
+                </iframe>
+              </div>
+              <ng-template #noTrailer>
+                <div class="no-content">
+                  <mat-icon>video_library</mat-icon>
+                  <p>No hay trailers disponibles para esta película.</p>
+                </div>
+              </ng-template>
+            </div>
+          </mat-tab>
+
+          <!-- Películas similares -->
+          <mat-tab label="Películas similares">
+            <div class="tab-content">
+              <div *ngIf="similarMovies.length; else noSimilar" class="similar-movies">
+                <div class="movies-grid">
+                  <app-movie-card 
+                    *ngFor="let movie of similarMovies.slice(0, 6)"
+                    [movie]="movie"
+                    [isFavorite]="isFavorite(movie)"
+                    [isInWatchlist]="isInWatchlist(movie)"
+                    (favoriteToggled)="toggleFavorite($event)"
+                    (watchlistToggled)="toggleWatchlist($event)">
+                  </app-movie-card>
+                </div>
+              </div>
+              <ng-template #noSimilar>
+                <div class="no-content">
+                  <mat-icon>movie</mat-icon>
+                  <p>No hay películas similares disponibles.</p>
+                </div>
+              </ng-template>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card>
+    </div>
+
+    <!-- Sidebar con acciones -->
+    <aside class="sidebar">
+      <mat-card class="actions-card">
+        <div class="action-buttons">
+          <button 
+            mat-flat-button 
+            [color]="movie && isFavorite(movie) ? 'warn' : 'primary'"
+            (click)="movie && toggleFavorite(movie)"
+            class="action-btn">
+            <mat-icon>{{ movie && isFavorite(movie) ? 'favorite' : 'favorite_border' }}</mat-icon>
+            {{ movie && isFavorite(movie) ? 'Quitar de favoritos' : 'Agregar a favoritos' }}
+          </button>
+          
+          <button 
+            mat-stroked-button 
+            [color]="movie && isInWatchlist(movie) ? 'accent' : 'primary'"
+            (click)="movie && toggleWatchlist(movie)"
+            class="action-btn">
+            <mat-icon>{{ movie && isInWatchlist(movie) ? 'bookmark' : 'bookmark_border' }}</mat-icon>
+            {{ movie && isInWatchlist(movie) ? 'Quitar de watchlist' : 'Agregar a watchlist' }}
+          </button>
+          
+          <button 
+            mat-stroked-button 
+            routerLink="/movies"
+            class="action-btn">
+            <mat-icon>arrow_back</mat-icon>
+            Volver al catálogo
+          </button>
+        </div>
+      </mat-card>
+    </aside>
+  </div>
+</div>
+
+<!-- Loading state -->
+<div *ngIf="loading" class="loading-container">
+  <mat-spinner diameter="50"></mat-spinner>
+  <p>Cargando detalles de la película...</p>
+</div>
+
+<!-- Error state -->
+<div *ngIf="error && !loading" class="error-container">
+  <mat-icon class="error-icon">error</mat-icon>
+  <h3>Error al cargar la película</h3>
+  <p>{{ error }}</p>
+  <button mat-flat-button color="primary" routerLink="/movies">
+    Volver al catálogo
+  </button>
+</div>
