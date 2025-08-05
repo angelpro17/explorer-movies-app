@@ -428,58 +428,58 @@
   .content-container {
     padding-top: 60px; /* Mobile header height */
   }
-  
+
   .search-results,
   .favorites-content,
   .watchlist-content {
     padding: 30px 20px 50px;
   }
-  
+
   .section-title {
     font-size: 22px;
   }
-  
+
   .search-grid {
     grid-template-columns: 1fr;
     gap: 16px;
   }
-  
+
   .search-movie-item {
     flex-direction: column;
     max-width: 400px;
     margin: 0 auto;
   }
-  
+
   .search-movie-poster {
     flex: none;
     height: 240px;
   }
-  
+
   .search-movie-info {
     padding: 16px;
   }
-  
+
   .favorites-grid,
   .watchlist-grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 16px;
   }
-  
+
   .favorite-poster,
   .watchlist-poster {
     height: 225px;
   }
-  
+
   .empty-state {
     padding: 60px 20px;
   }
-  
+
   .empty-state mat-icon {
     font-size: 64px;
     width: 64px;
     height: 64px;
   }
-  
+
   .empty-state h3 {
     font-size: 20px;
   }
@@ -491,36 +491,36 @@
   .watchlist-content {
     padding: 20px 15px 40px;
   }
-  
+
   .section-title {
     font-size: 20px;
   }
-  
+
   .section-subtitle {
     font-size: 14px;
   }
-  
+
   .search-movie-poster {
     height: 200px;
   }
-  
+
   .favorites-grid,
   .watchlist-grid {
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 12px;
   }
-  
+
   .favorite-poster,
   .watchlist-poster {
     height: 180px;
     border-radius: 6px;
   }
-  
+
   .pagination {
     flex-direction: column;
     gap: 16px;
   }
-  
+
   .page-info {
     order: -1;
   }

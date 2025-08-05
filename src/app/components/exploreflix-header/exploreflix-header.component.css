@@ -297,11 +297,11 @@
   .header-container {
     padding: 0 40px;
   }
-  
+
   .main-nav {
     gap: 15px;
   }
-  
+
   .search-input-container {
     min-width: 220px;
   }
@@ -312,52 +312,59 @@
     padding: 0 20px;
     height: 60px;
   }
-  
+
   .exploreflix-logo {
     font-size: 20px;
   }
-  
+
   .logo-icon {
     font-size: 28px;
     width: 28px;
     height: 28px;
   }
-  
+
   .main-nav {
     display: none;
   }
-  
+
   .main-nav.mobile-hidden {
     display: none;
   }
-  
+
   .search-input-container {
     min-width: 200px;
     position: absolute;
-    top: 70px;
-    right: 20px;
-    left: 20px;
+    top: -10px;
+    margin-left: -14rem;
     z-index: 1001;
   }
-  
+
   .mobile-nav {
     top: 60px;
   }
 }
 
 @media (max-width: 480px) {
+  .search-input-container {
+    min-width: 200px;
+    position: absolute;
+    top: -10px;
+    margin-left: -15rem;
+    z-index: 1001;
+  }
+
   .header-container {
     padding: 0 15px;
   }
-  
+
   .exploreflix-logo {
     font-size: 18px;
   }
-  
+
   .logo-text {
     display: none;
   }
-  
+
   .header-right {
     gap: 10px;
   }
